@@ -1,3 +1,9 @@
 from django.shortcuts import render
+from game.models import Player, Coordinate
+from game.forms import GameForm
 
-# Create your views here.
+def index(request):
+
+  form = GameForm()
+
+  return render(request, 'index.html', {'form': form })
