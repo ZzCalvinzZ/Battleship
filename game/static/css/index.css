@@ -33,20 +33,3 @@ td{
 table {
   margin: 0 auto;
 }
-
-#beginner{
-  float: left;
-}
-
-#intermediate{
-  margin:0 auto;
-  padding-top: 1px;
-}
-
-#expert{
-  float:right;
-}
-
-#scoreboard {
-  margin-top: 60px;
-}

@@ -1,9 +1,13 @@
 from django.db import models
 
+class Game(models.Model):
+  name = models.CharField(max_length=200)
+
 class Player(models.Model):
   name = models.CharField(max_length=200)
   won = models.BooleanField(default=False)
   lost = models.BooleanField(default=False)
+  game = models.ForeignKey(Game, default=0)
 
 class Coordinate(models.Model):
   x = models.IntegerField(default=0)
