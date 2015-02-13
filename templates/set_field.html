@@ -3,12 +3,15 @@
 {% block links %}
 <link rel="stylesheet" href="{{STATIC_URL}}css/set_field.css">
 <script type="text/javascript" src="{{STATIC_URL}}js/set_field.js"></script>
+
 {% endblock %}
 
 {% block content %}
 <div id='fields'>
   <h1 class='center'>{{name}}</h1>
   <h5 class='center'>Please enter you name and place your ships</h5>
+
+  <div id='battleship' class="draggable ship"> </div>
 
   <div id = 'my-field'>
     <table>
@@ -32,4 +35,6 @@
       </form>
     </table>
   </div>
+
 {% endblock %}
+

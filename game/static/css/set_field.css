@@ -22,11 +22,28 @@ p {
   height: 40px;
   vertical-align: middle;
   text-align: center;
-}
-
-.uncovered {
   border: outset 4px #5980E2;
   background-color: #29458E;
+  transition: background-color 0.3s;
+}
+
+.draggable {
+  cursor: move;
+}
+
+.drop-target {
+  background-color: #F4FA3E;
+}
+
+.highlighted {
+  background-color: #FCFC38;
+}
+
+#battleship {
+  width: 35px;
+  height: 75px;
+  border: solid 2px;
+  position: absolute;
 }
 
 #name-field {

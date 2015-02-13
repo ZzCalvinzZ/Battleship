@@ -13,7 +13,7 @@ def index(request):
       game = Game(name=post['name'])
       game.save()
       #determine the unique URL for the game
-      game_url = request.META['HTTP_REFERER'] + 'game/' + game.name + '/' + str(game.id)
+      game_url = request.META['HTTP_REFERER'] + 'game/' + game.name.replace(" ", "_") + '/' + str(game.id)
       response = {
         'url': game_url,
         'game': game.name
@@ -35,7 +35,7 @@ def set_pieces(request, name, game_id):
   number_of_players = Player.objects.filter(game__id=game_id).count()
 
   request.session['game_data'] = {
-    'name': name,
+    'name': game.name,
     'game_id': game_id,
     'player': 0,
     'size': range(10),
