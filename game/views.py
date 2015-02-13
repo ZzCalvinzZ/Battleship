@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from game.models import Game, Player, Coordinate
-from game.forms import GameForm
+from game.forms import GameForm, SetFieldForm
 from django.http import HttpResponseRedirect, HttpResponse
 import json
 
@@ -44,7 +44,8 @@ def set_pieces(request, name, game_id):
   }
 
   game_data = dict(request.session['game_data'])
-
+  game_data['form'] = SetFieldForm(
+    )
   if number_of_players == 0:
     game_data['player'] = 1
   elif number_of_players == 1:
@@ -54,4 +55,4 @@ def set_pieces(request, name, game_id):
 
   player = Player(game=game)
 
-  return render(request, 'game_field.html', game_data)
+  return render(request, 'set_field.html', game_data)

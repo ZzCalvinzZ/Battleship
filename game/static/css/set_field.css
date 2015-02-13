@@ -18,15 +18,8 @@ p {
 }
 
 .my-cell {
-  width: 25px;
-  height: 25px;
-  vertical-align: middle;
-  text-align: center;
-}
-
-.opponent-cell {
-  width: 35px;
-  height: 35px;
+  width: 40px;
+  height: 40px;
   vertical-align: middle;
   text-align: center;
 }
@@ -34,13 +27,8 @@ p {
 .uncovered {
   border: outset 4px #5980E2;
   background-color: #29458E;
-
 }
 
-#my-field {
-  display: inline-block;
-}
-
-#opponent-field {
-  display: inline-block;
+#name-field {
+  padding-top: 50px;
 }

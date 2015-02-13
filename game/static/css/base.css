@@ -5,3 +5,6 @@ float: left;
 /*vertical-align:top;*/
 }
 
+.center {
+  text-align: center;
+}
