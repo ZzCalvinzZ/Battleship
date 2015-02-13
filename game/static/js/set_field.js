@@ -1,5 +1,5 @@
 $(document).ready(function() {
-
+  var ships = {}
   //Be able to rotate your ships
   $(".ship").rotate({ 
      bind: 
@@ -35,14 +35,16 @@ $(document).ready(function() {
     }
   });
 
-
-  $('#game-form').submit(function(){
+  //Gather data when your field is set
+  $('#set-field-form').submit(function(){
+    // var ships = {battleship: ['#04', '#05']};
+    console.log(request.POST['player_name'])
     $.ajax({
       type:$(this).attr('method'),
-      url: $(this).attr('action'),
+      url: window.location.pathname,
       data: $(this).serialize(),
       success: function(response){
-        $('#url').html("<h5>Game " + response.game + " has been created, you and your opponent can enter the game with this URL:</h5> <h5><a href=" + response.url + ">" + response.url + "</a></h5>")       
+        // $('#url').html("<h5>Game " + response.game + " has been created, you and your opponent can enter the game with this URL:</h5> <h5><a href=" + response.url + ">" + response.url + "</a></h5>")       
       },
       error: function(response){
         alert('something went wrong, please try again');
