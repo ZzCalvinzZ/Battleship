@@ -4,7 +4,7 @@ class Game(models.Model):
   name = models.CharField(max_length=200)
 
 class Player(models.Model):
-  name = models.CharField(max_length=200)
+  name = models.CharField(max_length=200, default='anonymous')
   won = models.BooleanField(default=False)
   lost = models.BooleanField(default=False)
   game = models.ForeignKey(Game, default=0)

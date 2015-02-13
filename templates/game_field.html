@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block links %}
+<link rel="stylesheet" href="{{STATIC_URL}}css/game_field.css">
+<script type="text/javascript" src="{{STATIC_URL}}js/game_field.js"></script>
+{% endblock %}
+
+{% block content %}
+<div id='game'>
+  <h1 class='title'>
+    {{name}}
+  </h1>
+  <div id = 'my-field'>
+    <table>
+      <tbody>
+        {% for x in size%}
+        <tr>
+          {% for y in size %}
+          <td class='uncovered' id='my-cell'>
+          </td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div id = 'opponent-field'>
+    <table>
+      <tbody>
+        {% for x in size%}
+        <tr>
+          {% for y in size %}
+          <td class='uncovered' id='opponent-cell'>
+          </td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}
