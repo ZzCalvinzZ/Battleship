@@ -1,5 +1,9 @@
 $(document).ready(function() {
-  var ships = {}
+  var aircraftSize = 5
+  var battleshipSize = 4
+  var submarineSize = 3
+  var cruiserSize = 3
+  var destroyerSize = 2
   //Be able to rotate your ships
   $(".ship").rotate({ 
      bind: 
@@ -17,34 +21,43 @@ $(document).ready(function() {
     snap: '.my-cell',
     grid: [40, 40],
     stop: function( event, ui ) {
-      var results = $('.ship').overlaps('.my-cell');
-      if (results.length > 0){
-        // for (var i=0;i<10;i++){
-        //   for (j=0;j<10;j++){
-        //     if ($('#'+i+j).hasclass('highlighted') == true){
-        //       $('#'+i+j).removeClass('highlighted');
-        //     }
-        //   }
-        // }
-        for (var i = 0;i < results.length; i++){
-          var target = results[i];
+      var destroyer = $('#destroyer').overlaps('.my-cell');
+      destroyerData = setShip(destroyer, destroyerSize)
+      // if (battleship.length > 0){
+
+      //   for (var i = 0;i < battleship.length; i++){
+      //     var target = battleship[i];
+
+      //     $(target).addClass('highlighted');
+      //   }
+      // }
+    }
+  });
+
+  function setShip(ship, size){
+    if (ship.length > 0){
+      if (ship.length == size){
+        for (var i = 0;i < ship.length; i++){
+          var target = ship[i];
 
           $(target).addClass('highlighted');
         }
       }
+      else{
+        alert("Must place ship entirely on grid");
+      }
     }
-  });
+  }
 
   //Gather data when your field is set
   $('#set-field-form').submit(function(){
-    // var ships = {battleship: ['#04', '#05']};
-    console.log(request.POST['player_name'])
+    var ships = {battleship: ['#04', '#05'], butt: ['#40', '#41']};
     $.ajax({
       type:$(this).attr('method'),
       url: window.location.pathname,
-      data: $(this).serialize(),
+      data: $(this).serialize() + '&' + $.param(ships),
       success: function(response){
-        // $('#url').html("<h5>Game " + response.game + " has been created, you and your opponent can enter the game with this URL:</h5> <h5><a href=" + response.url + ">" + response.url + "</a></h5>")       
+        $('#url').html("<h5>Game " + response.game + " has been created, you and your opponent can enter the game with this URL:</h5> <h5><a href=" + response.url + ">" + response.url + "</a></h5>")       
       },
       error: function(response){
         alert('something went wrong, please try again');

@@ -32,8 +32,8 @@ def set_field(request, name, game_id):
     post = (request.POST)
     form = SetFieldForm(post)
     if form.is_valid():
-      print post
-      response = post
+      # print post['butt[]']
+      # response = post
       return HttpResponse(json.dumps(response), content_type='application/json')
   else:  
     try:
