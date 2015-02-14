@@ -41,6 +41,10 @@ p {
   background-color: #FCFC38;
 }
 
+#wait {
+  color: red;
+}
+
 #my-field {
   display: inline-block;
   vertical-align: top

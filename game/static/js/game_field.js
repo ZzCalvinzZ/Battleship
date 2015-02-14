@@ -20,4 +20,20 @@ function highlight(response){
   }
 }
 
+//
+setInterval(function() {
+  $.ajax({
+    url: window.location.pathname+ '/check',
+    data:{
+      reloadData: true
+    },
+    success: function(response){
+        remap(response);        
+    },
+    error: function(response){
+      alert('something went wrong, please try again');
+    }
+  });
+}, 5000); //5 seconds
+
 });

@@ -8,6 +8,8 @@
 {% block content %}
 <div id='game'>
   <h1 class='center'>{{name}}</h1>
+  <h1 id='wait' class='center'>Waiting for Opponent to join <img src="http://i.stack.imgur.com/FhHRx.gif" alt="loading"></h1>
+
   <div id='fields'>
     <div id='my-field'>
       <h2>{{player_name}}</h2>
@@ -26,7 +28,7 @@
     </div>
 
     <div id='opponent-field'>
-    <h2>{{opponent_name}}</h2>
+    <h2 id='opponent-name'>{{opponent_name}}</h2>
       <table>
         <tbody>
           {% for x in size%}
