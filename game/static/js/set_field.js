@@ -28,6 +28,19 @@ $(document).ready(function() {
     // snap: '.my-cell',
     // snapMode: 'inner',
     grid: [40, 40],
+    drag: function( event, ui ) {
+      var snapTolerance = $(this).draggable('option', 'snapTolerance');
+      var topRemainder = ui.position.top % 40;
+      var leftRemainder = ui.position.left % 40;
+
+      if (topRemainder <= snapTolerance) {
+          ui.position.top = ui.position.top - topRemainder;
+      }
+
+      if (leftRemainder <= snapTolerance) {
+          ui.position.left = ui.position.left - leftRemainder;
+      }
+    },
     stop: function( event, ui ) {
 
       if ($.isEmptyObject(aircraftData)){

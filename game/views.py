@@ -46,7 +46,7 @@ def set_field(request, name, game_id):
 
     #Check how many players have currently joined
     number_of_players = Player.objects.filter(game__id=game_id).count()
-
+    print number_of_players
     request.session['game_data'] = {
       'name': game.name,
       'game_id': game_id,
@@ -59,6 +59,8 @@ def set_field(request, name, game_id):
     game_data = dict(request.session['game_data'])
     game_data['form'] = SetFieldForm(
       )
+
+    #Only two players are allowed to join, otherwise 404
     if number_of_players == 0:
       game_data['player'] = 1
     elif number_of_players == 1:
@@ -67,5 +69,6 @@ def set_field(request, name, game_id):
       return HttpResponse('This game is already full', status=404)
 
     player = Player(game=game)
+    player.save()
 
     return render(request, 'set_field.html', game_data)
