@@ -86,7 +86,6 @@ $(document).ready(function() {
   });
 
   function setShip(ship, size){
-    console.log(ship);
     var shipData = {}
     var duplicate = false
     if (ship.length > 0){
@@ -94,15 +93,12 @@ $(document).ready(function() {
         for (var i = 0;i < ship.length; i++){
           for (var j = 0; j < usedSquares.length; j++){
             var target = ship[i];
-            console.log("i" + target.id);
-            console.log("j" + usedSquares[j]);
             if (target.id == usedSquares[j]){
               duplicate = true
               break;
             }
           }
         }
-        console.log(duplicate);
         if (!duplicate){
           for (var i = 0;i < ship.length; i++){
             var target = ship[i];
@@ -123,7 +119,10 @@ $(document).ready(function() {
   }
 
   //Gather data when your field is set
-  $('#set-field-form').submit(function(){
+  $('#set-field-form').submit(function(e){
+    var self = this;
+    e.preventDefault();
+
     var ships = {};
     ships.aircraft = aircraftData;
     ships.battleship = battleshipData;
@@ -142,22 +141,30 @@ $(document).ready(function() {
     }
 
     if (!stop){
-      $.ajax({
-        type:$(this).attr('method'),
-        url: window.location.pathname,
-        data: $(this).serialize() + '&' + $.param(ships),
-        success: function(response){
-          alert("Player Name:  " + response.player_name);
-        },
-        error: function(response){
-          alert('something went wrong, please try again');
-        }
-      });
+      jsonShips = JSON.stringify(ships)
+      $("#id_ship_data").val(jsonShips);
+      self.submit();
     }
+      // $.ajax({
+      //   type:$(this).attr('method'),
+      //   url: window.location.pathname,
+      //   data: $(this).serialize() + '&' + $.param(ships),
+      //   success: function(response){
+      //     if (response.hasOwnProperty('player')){
+      //       var url = window.location.pathname + '/play';
+      //       httpGet(url);
+      //     }
+      //     else{
+      //       alert("Player Name:  " + response.player_name);
+      //    }
+      //   },
+      //   error: function(response){
+      //     alert('something went wrong, please try again');
+      //   }
+      // });
+    // }
 
     return false;
   });
-
-
 });
 
