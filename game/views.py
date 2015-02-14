@@ -67,8 +67,9 @@ def set_field(request, name, game_id):
         else:
           x = aircraft_str[0]
         y = aircraft_str[-1]
-        coord = Coordinate.objects.filter(player=player, x=int(x), y=int(y))
+        coord = Coordinate.objects.get(player=player, x=int(x), y=int(y))
         coord.ship = "A"
+        coord.save()
 
 
       #update coordinates for battleship
@@ -80,8 +81,9 @@ def set_field(request, name, game_id):
         else:
           x = battleship_str[0]
         y = battleship_str[-1]
-        coord = Coordinate.objects.filter(player=player, x=int(x), y=int(y))
+        coord = Coordinate.objects.get(player=player, x=int(x), y=int(y))
         coord.ship = "B"
+        coord.save()
 
       #update coordinates for submarine
       for submarine in ships['submarine']:
@@ -92,8 +94,9 @@ def set_field(request, name, game_id):
         else:
           x = submarine_str[0]
         y = submarine_str[-1]
-        coord = Coordinate.objects.filter(player=player, x=int(x), y=int(y))
+        coord = Coordinate.objects.get(player=player, x=int(x), y=int(y))
         coord.ship = "S"
+        coord.save()
 
       #update coordinates for cruiser
       for cruiser in ships['cruiser']:
@@ -104,20 +107,22 @@ def set_field(request, name, game_id):
         else:
           x = cruiser_str[0]
         y = cruiser_str[-1]
-        coord = Coordinate.objects.filter(player=player, x=int(x), y=int(y))
+        coord = Coordinate.objects.get(player=player, x=int(x), y=int(y))
         coord.ship = "C"
+        coord.save()
 
       #update coordinates for destroyer
       for destroyer in ships['destroyer']:
         destroyer_str = str(ships['destroyer'][destroyer])
         game_data['my_ships'].append(destroyer_str)
-        if len(cruiser_str) < 2:
+        if len(destroyer_str) < 2:
           x = str(0)
         else:
-          x = cruiser_str[0]
+          x = destroyer_str[0]
         y = destroyer_str[-1]
-        coord = Coordinate.objects.filter(player=player, x=int(x), y=int(y))
+        coord = Coordinate.objects.get(player=player, x=int(x), y=int(y))
         coord.ship = "D"
+        coord.save()
  
       #redirect to the game page
       args = {'name': game_data['name'], 'game_id': str(game_data['game_id'])}
@@ -196,23 +201,26 @@ def wait(request, name, game_id):
       opponent = opponent[0]
       opp_coords = Coordinate.objects.filter(player=opponent)
       if len(opp_coords) == 100:
-        game_data['opponent_id'] = opponent.id
-        game_data['opponent_name'] = opponent.name
+        if opponent.id != 0:
+          game_data['opponent_id'] = opponent.id
+          game_data['opponent_name'] = opponent.name
 
   return HttpResponse(json.dumps(game_data), content_type='application/json')
 
 def their_turn(request, name, game_id):
   game_data = request.session['game_data']
-  if game_data['my_turn'] == False
-    opponent = player.objects.get(id=game_data['opponent_id'])
+  if game_data['my_turn'] == False:
+    opponent = Player.objects.get(id=game_data['opponent_id'])
     latest_coord = opponent.last_coord_guessed 
-    if (latest_coord != 'N') && (latest_coord != game_data['latest_coord']):
+    if (latest_coord != 'N') and (latest_coord != game_data['latest_coord']):
       game_data['latest_coord'] = latest_coord
       game_data['my_turn'] = True
 
   return HttpResponse(json.dumps(game_data), content_type='application/json')
 
 def my_turn(request, name, game_id):
+  game_data = request.session['game_data']
+
   #Don't let the ship being sunk message appear more than once
   if game_data['aircraft_left'] == 0: game_data['aircraft_left'] -=1
   if game_data['battleship_left'] == 0: game_data['battleship_left'] -=1
@@ -220,15 +228,12 @@ def my_turn(request, name, game_id):
   if game_data['cruiser_left'] == 0: game_data['cruiser_left'] -=1
   if game_data['destroyer_left'] == 0: game_data['destroyer_left'] -=1
 
-
-  game_data = request.session['game_data']
-
   # get the coordinate that you clicked
   x_str = request.POST.get('x')
   y_str = request.POST.get('y')
   if x_str != None: x = int(x_str)
   if y_str != None: y = int(y_str)
-  opponent = player.objects.get(id=game_data['opponent_id'])
+  opponent = Player.objects.get(id=game_data['opponent_id'])
   coord = Coordinate.objects.get(player=opponent,x=x, y=y)
 
   #Check if it was a hit or a miss and track whether or not a ship has sunk
@@ -244,11 +249,13 @@ def my_turn(request, name, game_id):
     coord.attr = 'M'
     game_data['opponent_attr'] = 'M'    
   coord.save()
-  
+
   #populate coordinates to show results on the screen
   game_data['opponent_coord'] = x_str + y_str
   player = Player.objects.get(id=game_data['player_id'])
   player.last_coord_guessed = x_str + y_str
   player.save()
+
+  game_data['my_turn'] = False
 
   return HttpResponse(json.dumps(game_data), content_type='application/json')

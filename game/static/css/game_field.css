@@ -38,10 +38,14 @@ p {
 
 .hit {
   color: red;
+  font-size: 16px;
+  font-style: bold;
 }
 
 .miss {
   color: green;
+  font-size: 25px;
+  font-style: bold;
 }
 
 .highlighted {
@@ -59,6 +63,14 @@ p {
 #my-field {
   display: inline-block;
   vertical-align: top
+}
+
+#my-table {
+
+}
+
+#opponent-table{
+
 }
 
 #opponent-field {

@@ -31,10 +31,11 @@ $(document).ready(function() {
         if (response['opponent_id'] != 0){
           removeWait(response);  
           clearTimeout(timeOutId);
+
           turnFunction();
         }
         else{
-          timeOutId = setTimeout(waitFunction, 5000); 
+          timeOutId = setTimeout(waitFunction, 2000); 
         }
       },
       error: function(response){
@@ -43,71 +44,86 @@ $(document).ready(function() {
     });
   }
   waitFunction();
-  timeOutId = setTimeout(waitFunction, 5000);
+  timeOutId = setTimeout(waitFunction, 2000);
 
 
   //Removes the wait loading bar
   function removeWait(response){
     $('#wait').remove();
     $('#opponent-name').replaceWith('<h2 id="opponent-name">' +  response['opponent_name'] + '</h2>')
-    if response['my_turn']:
+    if (response['my_turn']){
       $('#my-name').addClass('turn');
+      myTurn = true;
+    }
+    else{
+      $('#opponent-name').addClass('turn');
+      myTurn = false;
+    }
   }
 
   //Timer for the wait between turns
   var turnFunction = function(){
-    $.ajax({
-      url: window.location.pathname+ '/their_turn',
-      success: function(response){
-        if response['my_turn']{
-          myTurn = true;
-          $('#my-name').addClass('turn');
-          $('#opponent-name').removeClass('turn')
-          checkIfHit(response);
-          clearTimeout(timeOutId);
-        }
-        else{
-          timeOutId = setTimeout(turnFunction, 5000); 
-        }
-      },
-      error: function(response){
-        alert('something went wrong, please try again');
+    if (!myTurn){
+      if ($('#wait').length == 0){
+        $.ajax({
+          url: window.location.pathname+ '/their_turn',
+          success: function(response){
+            if (response['my_turn']){
+              myTurn = true;
+              $('#my-name').addClass('turn');
+              $('#opponent-name').removeClass('turn')
+              checkIfHit(response);
+              clearInterval(timeOutId);
+            }
+            else{
+              timeOutId = setInterval(turnFunction, 2000); 
+            }
+          },
+          error: function(response){
+            alert('something went wrong, please try again');
+          }
+        });
       }
-    });
+    }
   }
+
   turnFunction();
-  timeOutId = setTimeout(turnFunction, 5000);
+  timeOutId = setInterval(turnFunction, 2000);
 
   //check whether I was hit or not
   function checkIfHit(response){
     var coord = '#my-field #' + response['latest_coord']
-    if $(coord).hasClass('highlighted'){
+    if ($(coord).hasClass('highlighted')){
       $(coord).text('X').addClass('hit')
     }
     else{
-      $(coord).text('/').addClass('miss')
+      $(coord).text('O').addClass('miss')
     }
   }
 
   //Pick a coordinate to fire at your opponent
-  $('#opponent-cell').click(function (e){
-    if myTurn{
+  $('#opponent-table tbody tr td').click(function (e){
+    if (myTurn){
       var target = e.target
       var x = target.parentNode.rowIndex;
       var y = target.cellIndex;
 
-      if (!$(target).hasClass('hit')) && (!$(target).hasClass('miss')) {
-      my_turn(x, y);
+      if (!$(target).hasClass('hit')){
+        if (!$(target).hasClass('miss')) {
+          my_turn(x, y);
+        }
       }
     }
   });
 
   //ajax call to check if you hit or missed
   function my_turn(x,y){
+    var csrftoken = getCookie('csrftoken');
     $.ajax({
       type: 'POST',
       url: window.location.pathname+ '/my_turn',
       data: {
+        csrfmiddlewaretoken: csrftoken,
         x: x,
         y: y
       },
@@ -122,8 +138,10 @@ $(document).ready(function() {
         //     win = true
         //     gameWon();
         //   } 
-
-        checkIfOpponentIsHit(response);        
+        myTurn = false;
+        $('#my-name').removeClass('turn');
+        $('#opponent-name').addClass('turn')
+        markOpponent(response);        
         // }
       },
       error: function(response){
@@ -132,9 +150,35 @@ $(document).ready(function() {
     });
   }
 
-  function checkIfOpponentIsHit(response){
+  function markOpponent(response){
+    var coord = '#opponent-field #' + response['opponent_coord']
+    if (response['opponent_attr'] == 'H'){
+      $(coord).text('X').addClass('hit');
+    }
+    else if (response['opponent_attr'] == 'M'){
+      $(coord).text('O').addClass('miss');
 
+    turnFunction();
+    timeOutId = setTimeout(turnFunction, 2000);
+    }
   }
 
+
+// get the cross site request forgery protection cookie
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
 
 });
