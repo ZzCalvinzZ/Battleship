@@ -8,6 +8,7 @@ class Player(models.Model):
   won = models.BooleanField(default=False)
   lost = models.BooleanField(default=False)
   game = models.ForeignKey(Game, default=0)
+  last_coord_guessed = models.CharField(max_length=2, default='N')
 
 class Coordinate(models.Model):
   x = models.IntegerField(default=0)

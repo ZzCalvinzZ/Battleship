@@ -34,11 +34,22 @@ p {
 .uncovered {
   border: outset 4px #5980E2;
   background-color: #29458E;
+}
 
+.hit {
+  color: red;
+}
+
+.miss {
+  color: green;
 }
 
 .highlighted {
   background-color: #FCFC38;
+}
+
+.turn{
+  border: green 4px solid;
 }
 
 #wait {

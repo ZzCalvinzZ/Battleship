@@ -134,6 +134,8 @@ def set_field(request, name, game_id):
 
     #Check how many players have currently joined
     number_of_players = Player.objects.filter(game__id=game_id).count()
+
+    #Session is used to store information for the player
     request.session['game_data'] = {
       'name': game.name,
       'game_id': game_id,
@@ -144,6 +146,7 @@ def set_field(request, name, game_id):
       'opponent_name': 'anonymous',
       'opponent_id': 0,
       'my_ships': [],
+      'latest_coord': 
       'size': range(10),
       'won': False,
       'lost': False,
@@ -178,7 +181,7 @@ def highlight(request, name, game_id):
   response = request.session['game_data']
   return HttpResponse(json.dumps(response), content_type='application/json')
 
-def check(request, name, game_id):
+def wait(request, name, game_id):
   game_data = request.session['game_data']
   if game_data['opponent_id'] == 0:
     opponent = Player.objects.filter(game__id=game_id).exclude(name = game_data['player_name'])
@@ -188,5 +191,17 @@ def check(request, name, game_id):
       if len(opp_coords) == 100:
         game_data['opponent_id'] = opponent.id
         game_data['opponent_name'] = opponent.name
+
+  return HttpResponse(json.dumps(game_data), content_type='application/json')
+
+def their_turn(request, name, game_id):
+  game_data = request.session['game_data']
+  if game_data['my_turn'] == False
+    opponent = player.objects.get(id=game_data['opponent_id'])
+    latest_coord = opponent.last_coord_guessed 
+    if (latest_coord != 'N') && (latest_coord != game_data['latest_coord']):
+      game_data['latest_coord'] = latest_coord
+      game_data['my_turn'] = True
+
 
   return HttpResponse(json.dumps(game_data), content_type='application/json')
