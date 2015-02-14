@@ -3,6 +3,7 @@ from django.core.urlresolvers import reverse
 from game.models import Game, Player, Coordinate
 from game.forms import GameForm, SetFieldForm
 from django.http import HttpResponseRedirect, HttpResponse
+from django.db.models import Q
 import json
 import parser
 import ast
@@ -121,9 +122,6 @@ def set_field(request, name, game_id):
       #redirect to the game page
       args = {'name': game_data['name'], 'game_id': str(game_data['game_id'])}
       return HttpResponseRedirect(reverse('game_field', kwargs=args))
-    else:
-      errors = form.errors
-      return HttpResponse(json.dumps(errors))
   else:  
     try:
       game = Game.objects.get(id=game_id)
@@ -174,3 +172,17 @@ def game_field(request, name, game_id):
 def highlight(request, name, game_id):
   response = request.session['game_data']
   return HttpResponse(json.dumps(response), content_type='application/json')
+
+def check(request, name, game_id):
+  game_data = request.session['game_data']
+
+  if game_data['opponent_id'] == 0:
+    opponent = Player.objects.filter(game__id=game_id).exclude(id = game_data['player_id'])
+    if len(opponent) == 1:
+      opponent = opponent[0]
+      opp_coords = Coordinate.objects.filter(player=opponent)
+      if len(opp_coords) == 100:
+        game_data['opponent_id'] = opponent.id
+        game_data['opponent_name'] = opponent.name
+
+  return HttpResponse(json.dumps(game_data), content_type='application/json')

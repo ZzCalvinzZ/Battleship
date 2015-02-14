@@ -10,25 +10,26 @@
 <div id='fields'>
   <h1 class='center'>{{name}}</h1>
   <h5 class='center'>Please enter you name and place your ships</h5>
-
-  <div id='aircraft' class="draggable ship rotate"> </div>
-  <div id='battleship' class="draggable ship rotate"> </div>
-  <div id='submarine' class="draggable ship rotate"> </div>
-  <div id='cruiser' class="draggable ship rotate"> </div>
-  <div id='destroyer' class="draggable ship rotate"> </div>
-
+  <h5 class='center'>Double Click to Rotate</h5>
   <div id = 'my-field'>
-    <table>
-      <tbody id='drop-target'>
-        {% for x in size%}
-        <tr>
-          {% for y in size %}
-          <td class='uncovered my-cell' id='{{x}}{{y}}'></td>
+    <div id='aircraft' class="draggable ship rotate"> </div>
+    <div id='battleship' class="draggable ship rotate"> </div>
+    <div id='submarine' class="draggable ship rotate"> </div>
+    <div id='cruiser' class="draggable ship rotate"> </div>
+    <div id='destroyer' class="draggable ship rotate"> </div>
+    <div id='table-div'>
+      <table>
+        <tbody id='drop-target'>
+          {% for x in size%}
+          <tr>
+            {% for y in size %}
+            <td class='uncovered my-cell' id='{{x}}{{y}}'></td>
+            {% endfor %}
+          </tr>
           {% endfor %}
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+    </div>
   </div>
   <div id='name-field'>
     <table>

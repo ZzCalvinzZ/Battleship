@@ -18,6 +18,6 @@ urlpatterns = patterns('',
     url(r'^game/(?P<name>(\w|\s)+)/(?P<game_id>\d+)/?$', 'game.views.set_field', name='set_field'),
     url(r'^game/(?P<name>(\w|\s)+)/(?P<game_id>\d+)/play/?$', 'game.views.game_field', name='game_field'),
     url(r'^game/(?P<name>(\w|\s)+)/(?P<game_id>\d+)/play/highlight/?$', 'game.views.highlight', name='highlight'),
-    url(r'^game/(?P<name>(\w|\s)+)/(?P<game_id>\d+)/play/find_opponent/?$', 'game.views.find_opponent', name='find_opponent'),
+    url(r'^game/(?P<name>(\w|\s)+)/(?P<game_id>\d+)/play/check/?$', 'game.views.check', name='check'),
     url(r'^$', 'game.views.index', name='index'),
 )

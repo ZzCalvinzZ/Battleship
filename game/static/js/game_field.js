@@ -25,15 +25,20 @@ setInterval(function() {
   $.ajax({
     url: window.location.pathname+ '/check',
     data:{
-      reloadData: true
     },
     success: function(response){
-        remap(response);        
+      if (response['opponent_id'] != 0)
+        removeWait(response);        
     },
     error: function(response){
       alert('something went wrong, please try again');
     }
   });
-}, 5000); //5 seconds
+}, 1000); //5 seconds
+
+
+function removeWait(response){
+  $('#wait').remove();
+}
 
 });

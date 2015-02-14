@@ -41,38 +41,54 @@ p {
 }
 
 #aircraft {
-  width: 35px;
-  height: 195px;
+  width: 30px;
+  height: 190px;
+  background-color: grey;
   border: solid 2px;
+  border-radius: 25px;
   position: absolute;
+  margin-left: 50px;
+
 }
 
 #battleship {
-  width: 35px;
-  height: 155px;
+  width: 30px;
+  height: 150px;
+  background-color: grey;
   border: solid 2px;
+  border-radius: 25px;
   position: absolute;
+  margin-left: 100px;
 }
 
 #submarine {
-  width: 35px;
-  height: 115px;
+  width: 30px;
+  height: 110px;
+  background-color: grey;
   border: solid 2px;
+  border-radius: 25px;
   position: absolute;
+  margin-left: 150px;
 }
 
 #cruiser {
-  width: 35px;
-  height: 115px;
+  width: 30px;
+  height: 110px;
+  background-color: grey;
   border: solid 2px;
+  border-radius: 25px;
   position: absolute;
+  margin-left: 200px
 }
 
 #destroyer {
-  width: 35px;
-  height: 75px;
+  width: 30px;
+  height: 70px;
+  background-color: grey;
   border: solid 2px;
+  border-radius: 25px;
   position: absolute;
+  margin-left: 250px;
 }
 
 #name-field {
