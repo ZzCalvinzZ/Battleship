@@ -124,12 +124,12 @@ $(document).ready(function() {
         y: y
       },
       success: function(response){
-
-         if (response['aircraft_left'] == 0){alert(response['opponent_name'] + ", you sunk my Aircraft Carrier!");}
-         if (response['battleship_left'] == 0){alert(response['opponent_name'] + ", you sunk my battleship_left!");}
-         if (response['submarine_left'] == 0){alert(response['opponent_name'] + ", you sunk my Submarine!");}
-         if (response['cruiser_left'] == 0){alert(response['opponent_name'] + ", you sunk my Cruiser!");}
-         if (response['destroyer_left'] == 0){alert(response['opponent_name'] + ", you sunk my Destroyer!");}
+        //you sunk my battleship!
+        if (response['aircraft_left'] == 0){alert(response['opponent_name'] + ", you sunk my Aircraft Carrier!");}
+        if (response['battleship_left'] == 0){alert(response['opponent_name'] + ", you sunk my battleship_left!");}
+        if (response['submarine_left'] == 0){alert(response['opponent_name'] + ", you sunk my Submarine!");}
+        if (response['cruiser_left'] == 0){alert(response['opponent_name'] + ", you sunk my Cruiser!");}
+        if (response['destroyer_left'] == 0){alert(response['opponent_name'] + ", you sunk my Destroyer!");}
 
         myTurn = false;
         $('#my-name').removeClass('turn');
@@ -144,6 +144,7 @@ $(document).ready(function() {
     });
   }
 
+  //Marks the opponents board with a hit or a miss
   function markOpponent(response){
     var coord = '#opponent-field #' + response['opponent_coord']
     if (response['opponent_attr'] == 'H'){
