@@ -105,6 +105,8 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
+SESSION_SAVE_EVERY_REQUEST = True
+
 ROOT_URLCONF = 'battleship.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.

@@ -145,25 +145,6 @@ $(document).ready(function() {
       $("#id_ship_data").val(jsonShips);
       self.submit();
     }
-      // $.ajax({
-      //   type:$(this).attr('method'),
-      //   url: window.location.pathname,
-      //   data: $(this).serialize() + '&' + $.param(ships),
-      //   success: function(response){
-      //     if (response.hasOwnProperty('player')){
-      //       var url = window.location.pathname + '/play';
-      //       httpGet(url);
-      //     }
-      //     else{
-      //       alert("Player Name:  " + response.player_name);
-      //    }
-      //   },
-      //   error: function(response){
-      //     alert('something went wrong, please try again');
-      //   }
-      // });
-    // }
-
     return false;
   });
 });

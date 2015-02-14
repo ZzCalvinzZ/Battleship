@@ -46,6 +46,7 @@ def set_field(request, name, game_id):
 
       #save the players name to the database
       player.name = post['player_name']
+      game_data['player_name'] = post['player_name']
       player.save()
 
       #populate coordinates
@@ -56,10 +57,10 @@ def set_field(request, name, game_id):
 
       #convert querydict data to dictionary
       ships = ast.literal_eval(post['ship_data'])
-      print ships
       #update coordinates for aircraft
       for aircraft in ships['aircraft']:
         aircraft_str = str(ships['aircraft'][aircraft])
+        game_data['my_ships'].append(aircraft_str)
         if len(aircraft_str) < 2:
           x = str(0)
         else:
@@ -68,10 +69,11 @@ def set_field(request, name, game_id):
         coord = Coordinate.objects.filter(player=player, x=int(x), y=int(y))
         coord.ship = "A"
 
+
       #update coordinates for battleship
       for battleship in ships['battleship']:
-        print ships['battleship'][battleship]
         battleship_str = str(ships['battleship'][battleship])
+        game_data['my_ships'].append(battleship_str)
         if len(battleship_str) < 2:
           x = str(0)
         else:
@@ -83,6 +85,7 @@ def set_field(request, name, game_id):
       #update coordinates for submarine
       for submarine in ships['submarine']:
         submarine_str = str(ships['submarine'][submarine])
+        game_data['my_ships'].append(submarine_str)
         if len(submarine_str) < 2:
           x = str(0)
         else:
@@ -94,6 +97,7 @@ def set_field(request, name, game_id):
       #update coordinates for cruiser
       for cruiser in ships['cruiser']:
         cruiser_str = str(ships['cruiser'][cruiser])
+        game_data['my_ships'].append(cruiser_str)
         if len(cruiser_str) < 2:
           x = str(0)
         else:
@@ -105,6 +109,7 @@ def set_field(request, name, game_id):
       #update coordinates for destroyer
       for destroyer in ships['destroyer']:
         destroyer_str = str(ships['destroyer'][destroyer])
+        game_data['my_ships'].append(destroyer_str)
         if len(cruiser_str) < 2:
           x = str(0)
         else:
@@ -113,8 +118,9 @@ def set_field(request, name, game_id):
         coord = Coordinate.objects.filter(player=player, x=int(x), y=int(y))
         coord.ship = "D"
  
-      response = request.session['game_data']
-      return render(request, 'game_field.html', response)
+      #redirect to the game page
+      args = {'name': game_data['name'], 'game_id': str(game_data['game_id'])}
+      return HttpResponseRedirect(reverse('game_field', kwargs=args))
     else:
       errors = form.errors
       return HttpResponse(json.dumps(errors))
@@ -130,7 +136,11 @@ def set_field(request, name, game_id):
       'name': game.name,
       'game_id': game_id,
       'player': 0,
+      'player_name': 'anonymous',
       'player_id': 0,
+      'opponent_name': 'anonymous',
+      'opponent_id': 0,
+      'my_ships': [],
       'size': range(10),
       'won': False,
       'lost': False,
@@ -158,4 +168,9 @@ def set_field(request, name, game_id):
 def game_field(request, name, game_id):
 
   response = request.session['game_data']
+  print response
   return render(request, 'game_field.html', response)
+
+def highlight(request, name, game_id):
+  response = request.session['game_data']
+  return HttpResponse(json.dumps(response), content_type='application/json')

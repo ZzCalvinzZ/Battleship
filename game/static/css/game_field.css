@@ -37,10 +37,20 @@ p {
 
 }
 
+.highlighted {
+  background-color: #FCFC38;
+}
+
 #my-field {
   display: inline-block;
+  vertical-align: top
 }
 
 #opponent-field {
   display: inline-block;
+  vertical-align: top
+}
+
+#fields{
+  text-align: center;
 }

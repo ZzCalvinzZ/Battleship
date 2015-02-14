@@ -8,34 +8,38 @@
 {% block content %}
 <div id='game'>
   <h1 class='center'>{{name}}</h1>
-  <div id = 'my-field'>
-    <table>
-      <tbody>
-        {% for x in size%}
-        <tr>
-          {% for y in size %}
-          <td class='uncovered my-cell' id='{{x}}{{y}}'>
-          </td>
+  <div id='fields'>
+    <div id='my-field'>
+      <h2>{{player_name}}</h2>
+      <table>
+        <tbody>
+          {% for x in size%}
+          <tr>
+            {% for y in size %}
+            <td class='uncovered my-cell' id='{{x}}{{y}}'>
+            </td>
+            {% endfor %}
+          </tr>
           {% endfor %}
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
+        </tbody>
+      </table>
+    </div>
 
-  <div id = 'opponent-field'>
-    <table>
-      <tbody>
-        {% for x in size%}
-        <tr>
-          {% for y in size %}
-          <td class='uncovered opponent-cell'>
-          </td>
+    <div id='opponent-field'>
+    <h2>{{opponent_name}}</h2>
+      <table>
+        <tbody>
+          {% for x in size%}
+          <tr>
+            {% for y in size %}
+            <td class='uncovered opponent-cell'>
+            </td>
+            {% endfor %}
+          </tr>
           {% endfor %}
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 
