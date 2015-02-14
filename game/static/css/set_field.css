@@ -20,6 +20,7 @@ p {
 .my-cell {
   width: 40px;
   height: 40px;
+  padding: 2px;
   vertical-align: middle;
   text-align: center;
   border: outset 4px #5980E2;
@@ -37,6 +38,34 @@ p {
 
 .highlighted {
   background-color: #FCFC38;
+}
+
+#aircraft {
+  width: 35px;
+  height: 195px;
+  border: solid 2px;
+  position: absolute;
+}
+
+#battleship {
+  width: 35px;
+  height: 155px;
+  border: solid 2px;
+  position: absolute;
+}
+
+#submarine {
+  width: 35px;
+  height: 115px;
+  border: solid 2px;
+  position: absolute;
+}
+
+#cruiser {
+  width: 35px;
+  height: 115px;
+  border: solid 2px;
+  position: absolute;
 }
 
 #destroyer {

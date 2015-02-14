@@ -10,7 +10,7 @@ $(document).ready(function() {
           $('#url').html("<h5>Game " + response.game + " has been created, you and your opponent can enter the game with this URL:</h5> <h5><a href=" + response.url + ">" + response.url + "</a></h5>")  
         }    
         else{
-          $('#url').html("<h5>"+ response +"</h5");
+          alert('Game Name:  ' + response)
         } 
       },
       error: function(response){
