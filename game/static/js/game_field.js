@@ -31,8 +31,6 @@ $(document).ready(function() {
         if (response['opponent_id'] != 0){
           removeWait(response);  
           clearTimeout(timeOutId);
-
-          turnFunction();
         }
         else{
           timeOutId = setTimeout(waitFunction, 2000); 
@@ -44,7 +42,6 @@ $(document).ready(function() {
     });
   }
   waitFunction();
-  timeOutId = setTimeout(waitFunction, 2000);
 
 
   //Removes the wait loading bar
@@ -58,10 +55,12 @@ $(document).ready(function() {
     else{
       $('#opponent-name').addClass('turn');
       myTurn = false;
+      turnFunction();
     }
   }
 
   //Timer for the wait between turns
+  var timeOutId2 = 0
   var turnFunction = function(){
     if (!myTurn){
       if ($('#wait').length == 0){
@@ -69,14 +68,14 @@ $(document).ready(function() {
           url: window.location.pathname+ '/their_turn',
           success: function(response){
             if (response['my_turn']){
+              clearTimeout(timeOutId2);
               myTurn = true;
               $('#my-name').addClass('turn');
               $('#opponent-name').removeClass('turn')
               checkIfHit(response);
-              clearInterval(timeOutId);
             }
             else{
-              timeOutId = setInterval(turnFunction, 2000); 
+              timeOutId2 = setTimeout(turnFunction, 2000); 
             }
           },
           error: function(response){
@@ -86,9 +85,6 @@ $(document).ready(function() {
       }
     }
   }
-
-  turnFunction();
-  timeOutId = setInterval(turnFunction, 2000);
 
   //check whether I was hit or not
   function checkIfHit(response){
@@ -141,7 +137,8 @@ $(document).ready(function() {
         myTurn = false;
         $('#my-name').removeClass('turn');
         $('#opponent-name').addClass('turn')
-        markOpponent(response);        
+        markOpponent(response); 
+        timeOutId2 = setTimeout(turnFunction, 2000)       
         // }
       },
       error: function(response){
@@ -157,9 +154,6 @@ $(document).ready(function() {
     }
     else if (response['opponent_attr'] == 'M'){
       $(coord).text('O').addClass('miss');
-
-    turnFunction();
-    timeOutId = setTimeout(turnFunction, 2000);
     }
   }
 

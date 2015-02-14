@@ -7,6 +7,7 @@ from django.db.models import Q
 import json
 import parser
 import ast
+import django.dispatch
 
 def index(request):
   if request.method == 'POST':
