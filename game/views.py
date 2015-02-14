@@ -137,6 +137,7 @@ def set_field(request, name, game_id):
     request.session['game_data'] = {
       'name': game.name,
       'game_id': game_id,
+      'my_turn': False,
       'player': 0,
       'player_name': 'anonymous',
       'player_id': 0,
@@ -154,6 +155,7 @@ def set_field(request, name, game_id):
     #Only two players are allowed to join, otherwise 404
     if number_of_players == 0:
       game_data['player'] = 1
+      game_data['my_turn'] = True
     elif number_of_players == 1:
       game_data['player'] = 2
     elif number_of_players >= 2:
@@ -178,10 +180,8 @@ def highlight(request, name, game_id):
 
 def check(request, name, game_id):
   game_data = request.session['game_data']
-  print game_data
   if game_data['opponent_id'] == 0:
     opponent = Player.objects.filter(game__id=game_id).exclude(name = game_data['player_name'])
-    print opponent
     if len(opponent) == 1:
       opponent = opponent[0]
       opp_coords = Coordinate.objects.filter(player=opponent)

@@ -21,22 +21,27 @@ function highlight(response){
 }
 
 //
-setInterval(function() {
+var timeOutId = 0;
+var ajaxFunction = function(){
   $.ajax({
     url: window.location.pathname+ '/check',
-    data:{
-    },
     success: function(response){
       console.log(response)
-      if (response['opponent_id'] != 0)
-        removeWait(response);        
+      if (response['opponent_id'] != 0){
+        removeWait(response);  
+        clearTimeout(timeOutId);
+      }
+      else{
+        timeOutId = setTimeout(ajaxFunction, 5000); 
+      }
     },
     error: function(response){
       alert('something went wrong, please try again');
     }
   });
-}, 5000);
-
+}
+ajaxFunction();
+timeOutId = setTimeout(ajaxFunction, 5000);
 
 function removeWait(response){
   $('#wait').remove();
