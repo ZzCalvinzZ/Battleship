@@ -124,16 +124,13 @@ $(document).ready(function() {
         y: y
       },
       success: function(response){
-        // if (lost == false && win == false){
-        //   if (response.lost == true){
-        //     lost = true
-        //     gameLost();
-        //   } 
 
-        //   if (response.won == true){
-        //     win = true
-        //     gameWon();
-        //   } 
+         if (response['aircraft_left'] == 0){alert(response['opponent_name'] + ", you sunk my Aircraft Carrier!");}
+         if (response['battleship_left'] == 0){alert(response['opponent_name'] + ", you sunk my battleship_left!");}
+         if (response['submarine_left'] == 0){alert(response['opponent_name'] + ", you sunk my Submarine!");}
+         if (response['cruiser_left'] == 0){alert(response['opponent_name'] + ", you sunk my Cruiser!");}
+         if (response['destroyer_left'] == 0){alert(response['opponent_name'] + ", you sunk my Destroyer!");}
+
         myTurn = false;
         $('#my-name').removeClass('turn');
         $('#opponent-name').addClass('turn')
