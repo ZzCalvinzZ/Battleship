@@ -146,9 +146,16 @@ def set_field(request, name, game_id):
       'opponent_name': 'anonymous',
       'opponent_id': 0,
       'my_ships': [],
-      'latest_coord': 
+      'latest_coord': 'N',
+      'opponent_attr': 'U',
+      'opponent_coord': 'N',
       'size': range(10),
       'won': False,
+      'aircraft_left': 5,
+      'battleship_left': 4,
+      'submarine_left': 3,
+      'cruiser_left': 3,
+      'destroyer_left': 2,
       'lost': False,
     }
 
@@ -203,5 +210,45 @@ def their_turn(request, name, game_id):
       game_data['latest_coord'] = latest_coord
       game_data['my_turn'] = True
 
+  return HttpResponse(json.dumps(game_data), content_type='application/json')
+
+def my_turn(request, name, game_id):
+  #Don't let the ship being sunk message appear more than once
+  if game_data['aircraft_left'] == 0: game_data['aircraft_left'] -=1
+  if game_data['battleship_left'] == 0: game_data['battleship_left'] -=1
+  if game_data['submarine_left'] == 0: game_data['submarine_left'] -=1
+  if game_data['cruiser_left'] == 0: game_data['cruiser_left'] -=1
+  if game_data['destroyer_left'] == 0: game_data['destroyer_left'] -=1
+
+
+  game_data = request.session['game_data']
+
+  # get the coordinate that you clicked
+  x_str = request.POST.get('x')
+  y_str = request.POST.get('y')
+  if x_str != None: x = int(x_str)
+  if y_str != None: y = int(y_str)
+  opponent = player.objects.get(id=game_data['opponent_id'])
+  coord = Coordinate.objects.get(player=opponent,x=x, y=y)
+
+  #Check if it was a hit or a miss and track whether or not a ship has sunk
+  if coord.ship != 'N':
+    coord.attr = 'H'
+    game_data['opponent_attr'] = 'H'
+    if (coord.ship == 'A'): game_data['aircraft_left'] -= 1
+    if (coord.ship == 'B'): game_data['battleship_left'] -= 1
+    if (coord.ship == 'S'): game_data['submarine_left'] -= 1
+    if (coord.ship == 'C'): game_data['cruiser_left'] -= 1
+    if (coord.ship == 'D'): game_data['destroyer_left'] -= 1
+  else:
+    coord.attr = 'M'
+    game_data['opponent_attr'] = 'M'    
+  coord.save()
+  
+  #populate coordinates to show results on the screen
+  game_data['opponent_coord'] = x_str + y_str
+  player = Player.objects.get(id=game_data['player_id'])
+  player.last_coord_guessed = x_str + y_str
+  player.save()
 
   return HttpResponse(json.dumps(game_data), content_type='application/json')

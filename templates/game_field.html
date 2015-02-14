@@ -28,13 +28,13 @@
     </div>
 
     <div id='opponent-field'>
-    <h2 id='opponent-name'>{{opponent_name}}</h2>
+      <h2 id='opponent-name'>{{opponent_name}}</h2>
       <table>
         <tbody>
           {% for x in size%}
           <tr>
             {% for y in size %}
-            <td class='uncovered opponent-cell'>
+            <td class='uncovered opponent-cell' id='{{x}}{{y}}'>
             </td>
             {% endfor %}
           </tr>
