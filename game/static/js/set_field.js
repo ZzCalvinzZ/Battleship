@@ -10,6 +10,9 @@ $(document).ready(function() {
   var submarineData = {}
   var cruiserData = {}
   var destroyerData = {}
+
+  var usedSquares = []
+
   //Be able to rotate your ships
   $(".rotate").bind({ 
  
@@ -27,50 +30,78 @@ $(document).ready(function() {
     grid: [40, 40],
     stop: function( event, ui ) {
 
-      var aircraft = $('#aircraft').overlaps('.my-cell');
-      aircraftData = setShip(aircraft, aircraftSize);
-      if (!($.isEmptyObject(aircraftData))){
-        $('#aircraft').unbind().removeClass('draggable');
+      if ($.isEmptyObject(aircraftData)){
+        var aircraft = $('#aircraft').overlaps('.my-cell');
+        aircraftData = setShip(aircraft, aircraftSize);
+        if (!($.isEmptyObject(aircraftData))){
+          $('#aircraft').unbind().removeClass('draggable');
+        }
       }
 
-      var battleship = $('#battleship').overlaps('.my-cell');
-      battleshipData = setShip(battleship, battleshipSize);
-      if (!($.isEmptyObject(battleshipData))){
-        $('#battleship').unbind().removeClass('draggable');
+      if ($.isEmptyObject(battleshipData)){
+        var battleship = $('#battleship').overlaps('.my-cell');
+        battleshipData = setShip(battleship, battleshipSize);
+        if (!($.isEmptyObject(battleshipData))){
+          $('#battleship').unbind().removeClass('draggable');
+        }
       }
 
-      var submarine = $('#submarine').overlaps('.my-cell');
-      submarineData = setShip(submarine, submarineSize);
-      if (!($.isEmptyObject(submarineData))){
-        $('#submarine').unbind().removeClass('draggable');
+      if ($.isEmptyObject(submarineData)){
+        var submarine = $('#submarine').overlaps('.my-cell');
+        submarineData = setShip(submarine, submarineSize);
+        if (!($.isEmptyObject(submarineData))){
+          $('#submarine').unbind().removeClass('draggable');
+        }
       }
 
-      var cruiser = $('#cruiser').overlaps('.my-cell');
-      cruiserData = setShip(cruiser, cruiserSize);
-      if (!($.isEmptyObject(cruiserData))){
-        $('#cruiser').unbind().removeClass('draggable');
+      if ($.isEmptyObject(cruiserData)){
+        var cruiser = $('#cruiser').overlaps('.my-cell');
+        cruiserData = setShip(cruiser, cruiserSize);
+        if (!($.isEmptyObject(cruiserData))){
+          $('#cruiser').unbind().removeClass('draggable');
+        }
       }
 
-      var destroyer = $('#destroyer').overlaps('.my-cell');
-      destroyerData = setShip(destroyer, destroyerSize);
-      if (!($.isEmptyObject(destroyerData))){
-        $('#destroyer').unbind().removeClass('draggable');
-
+      if ($.isEmptyObject(destroyerData)){
+        var destroyer = $('#destroyer').overlaps('.my-cell');
+        destroyerData = setShip(destroyer, destroyerSize);
+        if (!($.isEmptyObject(destroyerData))){
+          $('#destroyer').unbind().removeClass('draggable');
+        }
       }
     }
   });
 
   function setShip(ship, size){
+    console.log(ship);
     var shipData = {}
+    var duplicate = false
     if (ship.length > 0){
       if (ship.length == size){
         for (var i = 0;i < ship.length; i++){
-          var target = ship[i];
-          $(target).addClass('highlighted');
-          shipData[i] = target.id;
+          for (var j = 0; j < usedSquares.length; j++){
+            var target = ship[i];
+            console.log("i" + target.id);
+            console.log("j" + usedSquares[j]);
+            if (target.id == usedSquares[j]){
+              duplicate = true
+              break;
+            }
+          }
         }
-        return shipData;
-        $()
+        console.log(duplicate);
+        if (!duplicate){
+          for (var i = 0;i < ship.length; i++){
+            var target = ship[i];
+            $(target).addClass('highlighted');
+            shipData[i] = target.id;
+            usedSquares.push(target.id);
+          }
+          return shipData;
+        }
+        else{
+          alert("Ships cannot be placed on top of each other")
+        }
       }
       else{
         alert("Must place ship entirely on grid");
