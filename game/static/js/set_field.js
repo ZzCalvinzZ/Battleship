@@ -4,6 +4,12 @@ $(document).ready(function() {
   var submarineSize = 3
   var cruiserSize = 3
   var destroyerSize = 2
+
+  var aircraftData = {}
+  var battleshipData = {}
+  var submarineData = {}
+  var cruiserData = {}
+  var destroyerData = {}
   //Be able to rotate your ships
   $(".ship").rotate({ 
      bind: 
@@ -22,7 +28,12 @@ $(document).ready(function() {
     grid: [40, 40],
     stop: function( event, ui ) {
       var destroyer = $('#destroyer').overlaps('.my-cell');
-      destroyerData = setShip(destroyer, destroyerSize)
+      destroyerData = setShip(destroyer, destroyerSize);
+      if (!($.isEmptyObject(destroyerData))){
+        $('#destroyer').draggable({
+          disabled: true
+        })
+      }
       // if (battleship.length > 0){
 
       //   for (var i = 0;i < battleship.length; i++){
@@ -35,13 +46,16 @@ $(document).ready(function() {
   });
 
   function setShip(ship, size){
+    var shipData = {}
     if (ship.length > 0){
       if (ship.length == size){
         for (var i = 0;i < ship.length; i++){
           var target = ship[i];
-
           $(target).addClass('highlighted');
+          shipData[i] = target.id;
         }
+        return shipData;
+        $()
       }
       else{
         alert("Must place ship entirely on grid");
