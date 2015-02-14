@@ -40,6 +40,11 @@ p {
   background-color: #FCFC38;
 }
 
+.errorlist {
+  display:inline;
+  color: red;
+}
+
 #aircraft {
   width: 30px;
   height: 190px;

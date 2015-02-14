@@ -27,6 +27,7 @@ setInterval(function() {
     data:{
     },
     success: function(response){
+      console.log(response)
       if (response['opponent_id'] != 0)
         removeWait(response);        
     },
@@ -34,11 +35,12 @@ setInterval(function() {
       alert('something went wrong, please try again');
     }
   });
-}, 1000); //5 seconds
+}, 5000);
 
 
 function removeWait(response){
   $('#wait').remove();
+  $('#opponent-name').replaceWith('<h2 id="opponent-name">' +  response['opponent_name'] + '</h2>')
 }
 
 });

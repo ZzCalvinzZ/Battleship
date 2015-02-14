@@ -36,6 +36,7 @@
       <form id="set-field-form" action="/game/{{name}}/{{game_id}}" method="post">
         {% csrf_token %}
         {{ form.as_table }}
+        {{ form.name_of_field.errors }}
         <tr class="submit"><th></th><td><input type="submit" value="Play!" /></td></tr>
       </form>
     </table>

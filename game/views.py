@@ -122,6 +122,10 @@ def set_field(request, name, game_id):
       #redirect to the game page
       args = {'name': game_data['name'], 'game_id': str(game_data['game_id'])}
       return HttpResponseRedirect(reverse('game_field', kwargs=args))
+    else:
+      response = dict(request.session['game_data'])
+      response['form'] = form
+      return render(request, 'set_field.html', response)
   else:  
     try:
       game = Game.objects.get(id=game_id)
@@ -166,7 +170,6 @@ def set_field(request, name, game_id):
 def game_field(request, name, game_id):
 
   response = request.session['game_data']
-  print response
   return render(request, 'game_field.html', response)
 
 def highlight(request, name, game_id):
@@ -175,9 +178,10 @@ def highlight(request, name, game_id):
 
 def check(request, name, game_id):
   game_data = request.session['game_data']
-
+  print game_data
   if game_data['opponent_id'] == 0:
-    opponent = Player.objects.filter(game__id=game_id).exclude(id = game_data['player_id'])
+    opponent = Player.objects.filter(game__id=game_id).exclude(name = game_data['player_name'])
+    print opponent
     if len(opponent) == 1:
       opponent = opponent[0]
       opp_coords = Coordinate.objects.filter(player=opponent)
