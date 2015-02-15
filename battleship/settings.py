@@ -2,18 +2,13 @@
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+STATIC_ROOT = 'staticfiles'
+STATIC_URL = '/static/'
 
-
-# here() gives us file paths from the root of the system to the directory
-# holding the current file.
-here = lambda * x: os.path.join(os.path.abspath(os.path.dirname(__file__)), *x)
-
-PROJECT_ROOT = here("..")
-# root() gives us file paths from the root of the system to whatever
-# folder(s) we pass it starting at the parent directory of the current file.
-root = lambda * x: os.path.join(os.path.abspath(PROJECT_ROOT), *x)
-
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
