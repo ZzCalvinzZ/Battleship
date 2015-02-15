@@ -1,4 +1,9 @@
-# Django settings for battleship project.
+# Django settings for minesweeper project.
+
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import os
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
 
 # here() gives us file paths from the root of the system to the directory
 # holding the current file.
@@ -8,16 +13,6 @@ PROJECT_ROOT = here("..")
 # root() gives us file paths from the root of the system to whatever
 # folder(s) we pass it starting at the parent directory of the current file.
 root = lambda * x: os.path.join(os.path.abspath(PROJECT_ROOT), *x)
-
-....
-
-TEMPLATE_DIRS = (
-    root('templates'),
-)
-
-import os
-
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -133,7 +128,7 @@ TEMPLATE_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     '/home/calvin/dev/battleship/templates/',
-    # root('templates'),
+    root('templates'),
 )
 
 INSTALLED_APPS = (
@@ -181,7 +176,7 @@ LOGGING = {
 
 # Parse database configuration from $DATABASE_URL
 import dj_database_url
-DATABASES['default'] =  dj_database_url.config()
+DATABASES['default'] =  dj_database_url.config(default='postgres://vqzeqfmegjeucy:o5mKaCC35YA7ifJ6zyoGz6Gq7P@ec2-50-17-202-29.compute-1.amazonaws.com:5432/dbf02taqkgd0mm')
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
