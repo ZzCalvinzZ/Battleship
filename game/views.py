@@ -211,10 +211,10 @@ def wait(request, name, game_id):
 def their_turn(request, name, game_id):
   game_data = request.session['game_data']
   if game_data['my_turn'] == False:
-    print game_data['opponent_id']
     try:
       opponent = Player.objects.get(id=game_data['opponent_id'])
     except Player.DoesNotExist:
+      print "their_turn except"
       return HttpResponse(json.dumps(game_data), content_type='application/json')
 
     latest_coord = opponent.last_coord_guessed 
@@ -243,11 +243,13 @@ def my_turn(request, name, game_id):
   try:
     opponent = Player.objects.get(id=game_data['opponent_id'])
   except Player.DoesNotExist:
+    print "myturn except player"
     return HttpResponse(json.dumps(game_data), content_type='application/json')
 
   try:
     coord = Coordinate.objects.get(player=opponent,x=x, y=y)
   except Coordinate.DoesNotExist:
+    print "myturn except coord"
     return HttpResponse(json.dumps(game_data), content_type='application/json')
 
   #Check if it was a hit or a miss and track whether or not a ship has sunk
@@ -269,6 +271,7 @@ def my_turn(request, name, game_id):
   try:
     player = Player.objects.get(id=game_data['player_id'])
   except Player.DoesNotExist:
+    print 'myturn exdfept player player'
     return HttpResponse(json.dumps(game_data), content_type='application/json')
   player.last_coord_guessed = x_str + y_str
   player.save()
