@@ -1,6 +1,8 @@
 # Django settings for minesweeper project.
 # Static asset configuration
 import os
+
+PROJECT_DIR = os.path.dirname(__file__)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = 'staticfiles'
 STATIC_URL = '/static/'
