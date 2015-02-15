@@ -165,6 +165,9 @@ LOGGING = {
 import dj_database_url
 DATABASES['default'] =  dj_database_url.config(default='postgres://vqzeqfmegjeucy:o5mKaCC35YA7ifJ6zyoGz6Gq7P@ec2-50-17-202-29.compute-1.amazonaws.com:5432/dbf02taqkgd0mm')
 
+# Enable Connection Pooling
+DATABASES['default']['ENGINE'] = 'django_postgrespool'
+
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
