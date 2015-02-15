@@ -15,11 +15,11 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^game/(?P<name>(\w|\s)+)/(?P<game_id>\d+)/?$', 'game.views.set_field', name='set_field'),
-    url(r'^game/(?P<name>(\w|\s)+)/(?P<game_id>\d+)/play/?$', 'game.views.game_field', name='game_field'),
-    url(r'^game/(?P<name>(\w|\s)+)/(?P<game_id>\d+)/play/highlight/?$', 'game.views.highlight', name='highlight'),
-    url(r'^game/(?P<name>(\w|\s)+)/(?P<game_id>\d+)/play/wait/?$', 'game.views.wait', name='wait'),
-    url(r'^game/(?P<name>(\w|\s)+)/(?P<game_id>\d+)/play/their_turn/?$', 'game.views.their_turn', name='their_turn'),
-    url(r'^game/(?P<name>(\w|\s)+)/(?P<game_id>\d+)/play/my_turn/?$', 'game.views.my_turn', name='my_turn'),
+    url(r'^game/(?P<name>(\w|\s|\')+)/(?P<game_id>\d+)/?$', 'game.views.set_field', name='set_field'),
+    url(r'^game/(?P<name>(\w|\s|\')+)/(?P<game_id>\d+)/play/?$', 'game.views.game_field', name='game_field'),
+    url(r'^game/(?P<name>(\w|\s|\')+)/(?P<game_id>\d+)/play/highlight/?$', 'game.views.highlight', name='highlight'),
+    url(r'^game/(?P<name>(\w|\s|\')+)/(?P<game_id>\d+)/play/wait/?$', 'game.views.wait', name='wait'),
+    url(r'^game/(?P<name>(\w|\s|\')+)/(?P<game_id>\d+)/play/their_turn/?$', 'game.views.their_turn', name='their_turn'),
+    url(r'^game/(?P<name>(\w|\s|\')+)/(?P<game_id>\d+)/play/my_turn/?$', 'game.views.my_turn', name='my_turn'),
     url(r'^$', 'game.views.index', name='index'),
 )
