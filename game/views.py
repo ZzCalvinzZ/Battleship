@@ -211,6 +211,7 @@ def wait(request, name, game_id):
 def their_turn(request, name, game_id):
   game_data = request.session['game_data']
   if game_data['my_turn'] == False:
+    print game_data['opponent_id']
     opponent = Player.objects.get(id=game_data['opponent_id'])
     latest_coord = opponent.last_coord_guessed 
     if (latest_coord != 'N') and (latest_coord != game_data['latest_coord']):
