@@ -2,7 +2,6 @@
 # Static asset configuration
 import os
 
-PROJECT_DIR = os.path.dirname(__file__)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = 'staticfiles'
 STATIC_URL = '/static/'
@@ -126,7 +125,7 @@ TEMPLATE_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     '/home/calvin/dev/battleship/templates/',
-    os.path.join(PROJECT_DIR, "templates"),
+    os.path.join(BASE_DIR, "templates"),
     # root('templates'),
 )
 
